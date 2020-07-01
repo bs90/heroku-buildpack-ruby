@@ -10,7 +10,7 @@ module LanguagePack
 
     def initialize(host_url, stack = nil)
       @config   = load_config
-      @host_url = fetch_cdn(host_url).gsub("http://", "https://")
+      @host_url = fetch_cdn(host_url)
       @host_url += File.basename(stack) if stack
     end
 
@@ -22,7 +22,7 @@ module LanguagePack
     end
 
     def fetch(path)
-      curl = curl_command("-O #{@host_url.join(path)}")
+      curl = curl_command("-O #{@host_url.join(path).gsub("http://", "https://")}")
       run!(curl, error_class: FetchError)
     end
 
